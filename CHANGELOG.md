@@ -42,8 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * support for fv, ipmt, pmt, ppmt functions.
 * support for amortisation table generation.
 
-[unreleased]: https://github.com/razorpay/go-financial/compare/v1.0.0...master
-[0.1.0]: https://github.com/razorpay/go-financial/releases/tag/v0.1.0
-[0.2.0]: https://github.com/razorpay/go-financial/releases/tag/v0.2.0
-[1.0.0]: https://github.com/razorpay/go-financial/releases/tag/v1.0.0
-[1.1.0]: https://github.com/razorpay/go-financial/releases/tag/v1.1.0
+[unreleased]: https://github.com/VIktorGV/go-financial/compare/v1.0.0...master
+[0.1.0]: https://github.com/VIktorGV/go-financial/releases/tag/v0.1.0
+[0.2.0]: https://github.com/VIktorGV/go-financial/releases/tag/v0.2.0
+[1.0.0]: https://github.com/VIktorGV/go-financial/releases/tag/v1.0.0
+[1.1.0]: https://github.com/VIktorGV/go-financial/releases/tag/v1.1.0
