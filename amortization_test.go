@@ -9,15 +9,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ViktorGV/go-financial/enums/frequency"
+	"github.com/ViktorGV/go-financial/enums/interesttype"
+	"github.com/ViktorGV/go-financial/enums/paymentperiod"
 	"github.com/shopspring/decimal"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 
-	"github.com/razorpay/go-financial/enums/interesttype"
-	"github.com/razorpay/go-financial/enums/paymentperiod"
 	"github.com/smartystreets/assertions"
-
-	"github.com/razorpay/go-financial/enums/frequency"
 )
 
 const (

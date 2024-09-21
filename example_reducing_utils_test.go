@@ -3,8 +3,8 @@ package gofinancial_test
 import (
 	"fmt"
 
-	gofinancial "github.com/razorpay/go-financial"
-	"github.com/razorpay/go-financial/enums/paymentperiod"
+	gofinancial "github.com/ViktorGV/go-financial"
+	"github.com/ViktorGV/go-financial/enums/paymentperiod"
 	"github.com/shopspring/decimal"
 )
 
