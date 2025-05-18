@@ -3,7 +3,6 @@ package gofinancial
 import (
 	"time"
 
-	"github.com/ViktorGV/go-financial/enums/interesttype"
 	"github.com/shopspring/decimal"
 )
 
@@ -20,9 +19,9 @@ func NewAmortization(c *Config) (*Amortization, error) {
 		return nil, err
 	}
 	switch a.Config.InterestType {
-	case interesttype.REDUCING:
+	case REDUCING:
 		a.Financial = &Reducing{}
-	case interesttype.FLAT:
+	case FLAT:
 		a.Financial = &Flat{}
 	}
 	return &a, nil

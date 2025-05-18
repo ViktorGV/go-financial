@@ -13,7 +13,6 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/ViktorGV/go-financial/enums/paymentperiod"
 	"github.com/shopspring/decimal"
 )
 
@@ -46,7 +45,7 @@ References:
 	http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 	OpenDocument-formula-20090508.odt
 */
-func Pmt(rate decimal.Decimal, nper int64, pv decimal.Decimal, fv decimal.Decimal, when paymentperiod.Type) decimal.Decimal {
+func Pmt(rate decimal.Decimal, nper int64, pv decimal.Decimal, fv decimal.Decimal, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	one := decimal.NewFromInt(1)
 	minusOne := decimal.NewFromInt(-1)
 	dWhen := decimal.NewFromInt(when.Value())
@@ -87,11 +86,11 @@ References:
 	http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 	OpenDocument-formula-20090508.odt
 */
-func IPmt(rate decimal.Decimal, per int64, nper int64, pv decimal.Decimal, fv decimal.Decimal, when paymentperiod.Type) decimal.Decimal {
+func IPmt(rate decimal.Decimal, per int64, nper int64, pv decimal.Decimal, fv decimal.Decimal, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	totalPmt := Pmt(rate, nper, pv, fv, when)
 	one := decimal.NewFromInt(1)
 	ipmt := rbl(rate, per, totalPmt, pv, when).Mul(rate)
-	if when == paymentperiod.BEGINNING {
+	if when == BEGINNING {
 		if per == 1 {
 			return decimal.Zero
 		} else {
@@ -127,14 +126,14 @@ References:
 	http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 	OpenDocument-formula-20090508.odt
 */
-func PPmt(rate decimal.Decimal, per int64, nper int64, pv decimal.Decimal, fv decimal.Decimal, when paymentperiod.Type) decimal.Decimal {
+func PPmt(rate decimal.Decimal, per int64, nper int64, pv decimal.Decimal, fv decimal.Decimal, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	total := Pmt(rate, nper, pv, fv, when)
 	ipmt := IPmt(rate, per, nper, pv, fv, when)
 	return total.Sub(ipmt)
 }
 
 // Rbl computes remaining balance
-func rbl(rate decimal.Decimal, per int64, pmt decimal.Decimal, pv decimal.Decimal, when paymentperiod.Type) decimal.Decimal {
+func rbl(rate decimal.Decimal, per int64, pmt decimal.Decimal, pv decimal.Decimal, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	return Fv(rate, per-1, pmt, pv, when)
 }
 
@@ -161,7 +160,7 @@ Params:
 	  (when = 0) of each period
 
 */
-func Nper(rate decimal.Decimal, pmt decimal.Decimal, pv decimal.Decimal, fv decimal.Decimal, when paymentperiod.Type) (result decimal.Decimal, err error) {
+func Nper(rate decimal.Decimal, pmt decimal.Decimal, pv decimal.Decimal, fv decimal.Decimal, when PAYMENT_PERIOD_TYPE) (result decimal.Decimal, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			result = decimal.Zero
@@ -213,7 +212,7 @@ References:
 	http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 	OpenDocument-formula-20090508.odt
 */
-func Fv(rate decimal.Decimal, nper int64, pmt decimal.Decimal, pv decimal.Decimal, when paymentperiod.Type) decimal.Decimal {
+func Fv(rate decimal.Decimal, nper int64, pmt decimal.Decimal, pv decimal.Decimal, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	one := decimal.NewFromInt(1)
 	minusOne := decimal.NewFromInt(-1)
 	dWhen := decimal.NewFromInt(when.Value())
@@ -255,7 +254,7 @@ References:
 	http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 	OpenDocument-formula-20090508.odt
 */
-func Pv(rate decimal.Decimal, nper int64, pmt decimal.Decimal, fv decimal.Decimal, when paymentperiod.Type) decimal.Decimal {
+func Pv(rate decimal.Decimal, nper int64, pmt decimal.Decimal, fv decimal.Decimal, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	one := decimal.NewFromInt(1)
 	minusOne := decimal.NewFromInt(-1)
 	dWhen := decimal.NewFromInt(when.Value())
@@ -305,7 +304,7 @@ Params:
 		  at the beginning (when = 1) or the end (when = 0) of each period
  curRate: the rate compounded once per period rate
 */
-func getRateRatio(pv, fv, pmt, curRate decimal.Decimal, nper int64, when paymentperiod.Type) decimal.Decimal {
+func getRateRatio(pv, fv, pmt, curRate decimal.Decimal, nper int64, when PAYMENT_PERIOD_TYPE) decimal.Decimal {
 	oneInDecimal := decimal.NewFromInt(1)
 	whenInDecimal := decimal.NewFromInt(when.Value())
 	nperInDecimal := decimal.NewFromInt(nper)
@@ -354,7 +353,7 @@ References:
 	http://www.oasis-open.org/committees/documents.php?wg_abbrev=office-formula
 	OpenDocument-formula-20090508.odt
 */
-func Rate(pv, fv, pmt decimal.Decimal, nper int64, when paymentperiod.Type, maxIter int64, tolerance, initialGuess decimal.Decimal) (decimal.Decimal, error) {
+func Rate(pv, fv, pmt decimal.Decimal, nper int64, when PAYMENT_PERIOD_TYPE, maxIter int64, tolerance, initialGuess decimal.Decimal) (decimal.Decimal, error) {
 	var nextIterRate, currentIterRate decimal.Decimal = initialGuess, initialGuess
 
 	for iter := int64(0); iter < maxIter; iter++ {

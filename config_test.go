@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"testing"
 	"time"
-
-	Frequency "github.com/ViktorGV/go-financial/enums/frequency"
 )
 
 type dateGroup struct {
@@ -17,7 +15,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 	type fields struct {
 		StartDate time.Time
 		EndDate   time.Time
-		Frequency Frequency.Type
+		Frequency FREQUENCY_TYPE
 	}
 	tests := []struct {
 		name        string
@@ -27,7 +25,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 		wantDates   []dateGroup
 	}{
 		{
-			name: "daily same year", fields: fields{getDate(2020, 1, 1), getDate(2020, 1, 31), Frequency.DAILY}, wantErr: false,
+			name: "daily same year", fields: fields{getDate(2020, 1, 1), getDate(2020, 1, 31), DAILY}, wantErr: false,
 			wantPeriods: 31, wantDates: []dateGroup{
 				{timeParseUtil(t, "2020-01-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-01 23:59:59 +0000 UTC")},
 				{timeParseUtil(t, "2020-01-02 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-02 23:59:59 +0000 UTC")},
@@ -63,7 +61,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 			},
 		},
 		{
-			name: "weekly same year", fields: fields{getDate(2020, 1, 1), getDate(2020, 4, 14), Frequency.WEEKLY}, wantErr: false,
+			name: "weekly same year", fields: fields{getDate(2020, 1, 1), getDate(2020, 4, 14), WEEKLY}, wantErr: false,
 			wantPeriods: 15, wantDates: []dateGroup{
 				{timeParseUtil(t, "2020-01-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-07 23:59:59 +0000 UTC")},
 				{timeParseUtil(t, "2020-01-08 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-14 23:59:59 +0000 UTC")},
@@ -83,7 +81,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 			},
 		},
 		{
-			name: "weekly different year", fields: fields{getDate(2020, 1, 1), getDate(2021, 2, 23), Frequency.WEEKLY}, wantErr: false,
+			name: "weekly different year", fields: fields{getDate(2020, 1, 1), getDate(2021, 2, 23), WEEKLY}, wantErr: false,
 			wantPeriods: 60, wantDates: []dateGroup{
 				{timeParseUtil(t, "2020-01-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-07 23:59:59 +0000 UTC")},
 				{timeParseUtil(t, "2020-01-08 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-14 23:59:59 +0000 UTC")},
@@ -149,7 +147,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 		},
 
 		{
-			name: "monthly same year", fields: fields{getDate(2020, 1, 1), getDate(2020, 9, 30), Frequency.MONTHLY}, wantErr: false,
+			name: "monthly same year", fields: fields{getDate(2020, 1, 1), getDate(2020, 9, 30), MONTHLY}, wantErr: false,
 			wantPeriods: 9, wantDates: []dateGroup{
 				{timeParseUtil(t, "2020-01-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-31 23:59:59 +0000 UTC")},
 				{timeParseUtil(t, "2020-02-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-02-29 23:59:59 +0000 UTC")},
@@ -163,7 +161,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 			},
 		},
 		{
-			name: "monthly different year", fields: fields{getDate(2020, 1, 1), getDate(2021, 10, 31), Frequency.MONTHLY}, wantErr: false,
+			name: "monthly different year", fields: fields{getDate(2020, 1, 1), getDate(2021, 10, 31), MONTHLY}, wantErr: false,
 			wantPeriods: 22, wantDates: []dateGroup{
 				{timeParseUtil(t, "2020-01-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-01-31 23:59:59 +0000 UTC")},
 				{timeParseUtil(t, "2020-02-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2020-02-29 23:59:59 +0000 UTC")},
@@ -190,7 +188,7 @@ func TestConfig_SetPeriodsAndDates(t *testing.T) {
 			},
 		},
 		{
-			name: "annually", fields: fields{getDate(2020, 5, 1), getDate(2022, 4, 30), Frequency.ANNUALLY}, wantErr: false,
+			name: "annually", fields: fields{getDate(2020, 5, 1), getDate(2022, 4, 30), ANNUALLY}, wantErr: false,
 			wantPeriods: 2, wantDates: []dateGroup{
 				{timeParseUtil(t, "2020-05-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2021-04-30 23:59:59 +0000 UTC")},
 				{timeParseUtil(t, "2021-05-01 00:00:00 +0000 UTC"), timeParseUtil(t, "2022-04-30 23:59:59 +0000 UTC")},

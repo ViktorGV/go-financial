@@ -1,0 +1,17 @@
+package gofinancial
+
+type PAYMENT_PERIOD_TYPE uint8
+
+const (
+	BEGINNING PAYMENT_PERIOD_TYPE = iota + 1
+	ENDING
+)
+
+var PAYMENT_PERIOD_VALUES = map[PAYMENT_PERIOD_TYPE]int64{
+	BEGINNING: 1,
+	ENDING:    0,
+}
+
+func (t PAYMENT_PERIOD_TYPE) Value() int64 {
+	return PAYMENT_PERIOD_VALUES[t]
+}

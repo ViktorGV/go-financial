@@ -1,4 +1,4 @@
-module github.com/ViktorGV/go-financial
+module github.com/ViktorGV/go-financial/v2
 
 go 1.23
 

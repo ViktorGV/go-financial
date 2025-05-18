@@ -4,7 +4,6 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ViktorGV/go-financial/enums/paymentperiod"
 	"github.com/shopspring/decimal"
 )
 
@@ -14,7 +13,7 @@ func Test_Pmt(t *testing.T) {
 		nper int64
 		pv   decimal.Decimal
 		fv   decimal.Decimal
-		when paymentperiod.Type
+		when PAYMENT_PERIOD_TYPE
 	}
 	tests := []struct {
 		name string
@@ -22,10 +21,10 @@ func Test_Pmt(t *testing.T) {
 		want decimal.Decimal
 	}{
 		{
-			"7.5% p.a., monthly basis, 15 yrs", args{decimal.NewFromFloat(0.075 / 12), 12 * 15, decimal.NewFromInt(200000), decimal.NewFromInt(0), paymentperiod.ENDING}, decimal.NewFromFloat(-1854.0247200054675),
+			"7.5% p.a., monthly basis, 15 yrs", args{decimal.NewFromFloat(0.075 / 12), 12 * 15, decimal.NewFromInt(200000), decimal.NewFromInt(0), ENDING}, decimal.NewFromFloat(-1854.0247200054675),
 		},
 		{
-			"bigDecimal case. would give nan if it were float64.", args{decimal.NewFromFloat(12), 400, decimal.NewFromInt(10000), decimal.NewFromInt(5000), paymentperiod.BEGINNING}, decimal.NewFromFloat(-9230.7692307692307692),
+			"bigDecimal case. would give nan if it were float64.", args{decimal.NewFromFloat(12), 400, decimal.NewFromInt(10000), decimal.NewFromInt(5000), BEGINNING}, decimal.NewFromFloat(-9230.7692307692307692),
 		},
 		{
 			"24% p.a., monthly basis, 2 yrs", args{decimal.NewFromFloat(0.24 / 12), 12 * 2, decimal.NewFromInt(1000000), decimal.NewFromInt(0), 0}, decimal.NewFromFloat(-52871.097253249915),
@@ -34,7 +33,7 @@ func Test_Pmt(t *testing.T) {
 			"8% p.a., monthly basis, 5 yrs", args{decimal.NewFromFloat(0.08 / 12), 12 * 5, decimal.NewFromInt(15000), decimal.NewFromInt(0), 0}, decimal.NewFromFloat(-304.1459143262052370338701494),
 		},
 		{
-			"0%p.a. , monthly basis, 15 yrs", args{decimal.Zero, 15 * 12, decimal.NewFromInt(200000), decimal.Zero, paymentperiod.ENDING}, decimal.NewFromFloat(-1111.111111111111),
+			"0%p.a. , monthly basis, 15 yrs", args{decimal.Zero, 15 * 12, decimal.NewFromInt(200000), decimal.Zero, ENDING}, decimal.NewFromFloat(-1111.111111111111),
 		},
 	}
 	for _, tt := range tests {
@@ -53,7 +52,7 @@ func Test_Fv(t *testing.T) {
 		nper int64
 		pmt  decimal.Decimal
 		pv   decimal.Decimal
-		when paymentperiod.Type
+		when PAYMENT_PERIOD_TYPE
 	}
 	tests := []struct {
 		name string
@@ -66,7 +65,7 @@ func Test_Fv(t *testing.T) {
 				nper: 10 * 12,
 				pmt:  decimal.NewFromInt(-100),
 				pv:   decimal.NewFromInt(-100),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(15692.928894335893),
 		},
@@ -88,7 +87,7 @@ func Test_IPmt(t *testing.T) {
 		nper int64
 		pv   decimal.Decimal
 		fv   decimal.Decimal
-		when paymentperiod.Type
+		when PAYMENT_PERIOD_TYPE
 	}
 	tests := []struct {
 		name string
@@ -103,7 +102,7 @@ func Test_IPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-17.166666666666668),
 		},
@@ -115,7 +114,7 @@ func Test_IPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-15.7893374573507768960793587710732749),
 		},
@@ -127,7 +126,7 @@ func Test_IPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-14.4025505874642504602108554951782324459586257024424875),
 		},
@@ -149,7 +148,7 @@ func Test_PPmt(t *testing.T) {
 		nper int64
 		pv   decimal.Decimal
 		fv   decimal.Decimal
-		when paymentperiod.Type
+		when PAYMENT_PERIOD_TYPE
 	}
 
 	tests := []struct {
@@ -165,7 +164,7 @@ func Test_PPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-200.5819236867801753),
 		},
@@ -177,7 +176,7 @@ func Test_PPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-201.9592528960960659039206412289267251),
 		},
@@ -189,7 +188,7 @@ func Test_PPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-203.3460397659825923397891445048217675540413742975575125),
 		},
@@ -201,7 +200,7 @@ func Test_PPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-204.7423492390423394738416027282628017795870286168635449048641975308641975),
 		},
@@ -213,7 +212,7 @@ func Test_PPmt(t *testing.T) {
 				nper: 1 * 12,
 				pv:   decimal.NewFromInt(2500),
 				fv:   decimal.NewFromInt(0),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(-206.1482467038170969439558163159297469375176170621658196811415267489711932911213991769547325),
 		},
@@ -234,7 +233,7 @@ func Test_Pv(t *testing.T) {
 		nper int64
 		pmt  decimal.Decimal
 		fv   decimal.Decimal
-		when paymentperiod.Type
+		when PAYMENT_PERIOD_TYPE
 	}
 	tests := []struct {
 		name string
@@ -247,7 +246,7 @@ func Test_Pv(t *testing.T) {
 				nper: 1 * 12,
 				pmt:  decimal.NewFromInt(-300),
 				fv:   decimal.NewFromInt(1000),
-				when: paymentperiod.BEGINNING,
+				when: BEGINNING,
 			},
 			want: decimal.NewFromFloat(2447.561238019001),
 		}, {
@@ -256,7 +255,7 @@ func Test_Pv(t *testing.T) {
 				nper: 1 * 12,
 				pmt:  decimal.NewFromInt(-300),
 				fv:   decimal.NewFromInt(1000),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want: decimal.NewFromFloat(2384.1091906934976),
 		},
@@ -305,7 +304,7 @@ func Test_Nper(t *testing.T) {
 		fv   decimal.Decimal
 		pmt  decimal.Decimal
 		pv   decimal.Decimal
-		when paymentperiod.Type
+		when PAYMENT_PERIOD_TYPE
 	}
 	tests := []struct {
 		name    string
@@ -320,7 +319,7 @@ func Test_Nper(t *testing.T) {
 				fv:   decimal.NewFromInt(0),
 				pmt:  decimal.NewFromInt(-150),
 				pv:   decimal.NewFromInt(8000),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want:    decimal.NewFromFloat(64.0733487706618586),
 			wantErr: false,
@@ -332,7 +331,7 @@ func Test_Nper(t *testing.T) {
 				fv:   decimal.NewFromInt(0),
 				pmt:  decimal.NewFromInt(-150),
 				pv:   decimal.NewFromInt(8000),
-				when: paymentperiod.ENDING,
+				when: ENDING,
 			},
 			want:    decimal.NewFromFloat(64.0733487706618586),
 			wantErr: true,
@@ -360,7 +359,7 @@ func Test_Rate(t *testing.T) {
 		fv           decimal.Decimal
 		pmt          decimal.Decimal
 		nper         int64
-		when         paymentperiod.Type
+		when         PAYMENT_PERIOD_TYPE
 		maxIter      int64
 		tolerance    decimal.Decimal
 		initialGuess decimal.Decimal
@@ -377,7 +376,7 @@ func Test_Rate(t *testing.T) {
 				fv:           decimal.NewFromInt(-3000),
 				pmt:          decimal.NewFromInt(100),
 				nper:         4,
-				when:         paymentperiod.BEGINNING,
+				when:         BEGINNING,
 				maxIter:      100,
 				tolerance:    decimal.NewFromFloat(1e-7),
 				initialGuess: decimal.NewFromFloat(0.1),
@@ -390,7 +389,7 @@ func Test_Rate(t *testing.T) {
 				fv:           decimal.NewFromInt(1000),
 				pmt:          decimal.NewFromInt(500),
 				nper:         2,
-				when:         paymentperiod.BEGINNING,
+				when:         BEGINNING,
 				maxIter:      100,
 				tolerance:    decimal.NewFromFloat(1e-7),
 				initialGuess: decimal.NewFromFloat(0.1),
@@ -403,7 +402,7 @@ func Test_Rate(t *testing.T) {
 				fv:           decimal.NewFromInt(1000),
 				pmt:          decimal.NewFromInt(100),
 				nper:         2,
-				when:         paymentperiod.BEGINNING,
+				when:         BEGINNING,
 				maxIter:      100,
 				tolerance:    decimal.NewFromFloat(1e-7),
 				initialGuess: decimal.NewFromFloat(0.1),

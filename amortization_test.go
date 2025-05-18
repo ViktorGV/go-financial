@@ -5,9 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ViktorGV/go-financial/enums/frequency"
-	"github.com/ViktorGV/go-financial/enums/interesttype"
-	"github.com/ViktorGV/go-financial/enums/paymentperiod"
 	"github.com/shopspring/decimal"
 )
 
@@ -28,13 +25,13 @@ func Test_amortization_GenerateTable(t *testing.T) {
 	}{
 		{
 			name:    "monthly table with rounding, reducing interest",
-			fields:  fields{Config: getConfigDto(frequency.MONTHLY, true, interesttype.REDUCING, decimal.NewFromInt(1000000), decimal.NewFromInt(2400), 0)},
+			fields:  fields{Config: getConfigDto(MONTHLY, true, REDUCING, decimal.NewFromInt(1000000), decimal.NewFromInt(2400), 0)},
 			want:    getRowsWithRounding(t),
 			wantErr: false,
 		},
 		{
 			name:    "monthly table without rounding, reducing interest",
-			fields:  fields{Config: getConfigDto(frequency.MONTHLY, false, interesttype.REDUCING, decimal.NewFromInt(1000000), decimal.NewFromInt(2400), 0)},
+			fields:  fields{Config: getConfigDto(MONTHLY, false, REDUCING, decimal.NewFromInt(1000000), decimal.NewFromInt(2400), 0)},
 			want:    getRowsWithoutRounding(t),
 			wantErr: false,
 		},
@@ -44,11 +41,11 @@ func Test_amortization_GenerateTable(t *testing.T) {
 				Config: &Config{
 					StartDate:      time.Date(2020, 4, 15, 0, 0, 0, 0, time.UTC),
 					EndDate:        time.Date(2020, 5, 14, 0, 0, 0, 0, time.UTC),
-					Frequency:      frequency.DAILY,
+					Frequency:      DAILY,
 					AmountBorrowed: decimal.NewFromInt(1000000),
-					InterestType:   interesttype.FLAT,
+					InterestType:   FLAT,
 					Interest:       decimal.NewFromInt(7300),
-					PaymentPeriod:  paymentperiod.ENDING,
+					PaymentPeriod:  ENDING,
 					EnableRounding: true,
 					RoundingPlaces: 0,
 				},
@@ -228,7 +225,7 @@ func timeParseUtil(t *testing.T, input string) time.Time {
 	return resultTime
 }
 
-func getConfigDto(frequency frequency.Type, round bool, interestType interesttype.Type, amount decimal.Decimal, interest decimal.Decimal, places int32) *Config {
+func getConfigDto(frequency FREQUENCY_TYPE, round bool, interestType INTEREST_TYPE, amount decimal.Decimal, interest decimal.Decimal, places int32) *Config {
 	return &Config{
 		StartDate:      time.Date(2020, 4, 15, 0, 0, 0, 0, time.UTC),
 		EndDate:        time.Date(2022, 4, 14, 0, 0, 0, 0, time.UTC),
