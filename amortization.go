@@ -1,18 +1,10 @@
 package gofinancial
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
-	"os"
-	"path"
 	"time"
 
 	"github.com/ViktorGV/go-financial/enums/interesttype"
 	"github.com/shopspring/decimal"
-
-	"github.com/go-echarts/go-echarts/v2/charts"
-	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
 // Amortization struct holds the configuration and financial details.
@@ -111,83 +103,4 @@ func sanityCheckUpdate(row *Row, tolerance decimal.Decimal) error {
 		}
 	}
 	return nil
-}
-
-// PrintRows outputs a formatted json for given rows as input.
-func PrintRows(rows []Row) {
-	bytes, _ := json.MarshalIndent(rows, "", "\t")
-	fmt.Printf("%s", bytes)
-}
-
-// PlotRows uses the go-echarts package to generate an interactive plot from the Rows array.
-func PlotRows(rows []Row, fileName string) (err error) {
-	bar := getStackedBarPlot(rows)
-	completePath, err := os.Getwd()
-	if err != nil {
-		return err
-	}
-	filePath := path.Join(completePath, fileName)
-	f, err := os.Create(fmt.Sprintf("%s.html", filePath))
-	if err != nil {
-		return err
-	}
-	defer func() {
-		// setting named err
-		ferr := f.Close()
-		if err == nil {
-			err = ferr
-		}
-	}()
-	return renderer(bar, f)
-}
-
-// getStackedBarPlot returns an instance for stacked bar plot.
-func getStackedBarPlot(rows []Row) *charts.Bar {
-	bar := charts.NewBar()
-	bar.SetGlobalOptions(charts.WithTitleOpts(opts.Title{
-		Title: "Loan repayment schedule",
-	},
-	),
-		charts.WithInitializationOpts(opts.Initialization{
-			Width:  "1200px",
-			Height: "600px",
-		}),
-		charts.WithToolboxOpts(opts.Toolbox{Show: true}),
-		charts.WithLegendOpts(opts.Legend{Show: true}),
-		charts.WithDataZoomOpts(opts.DataZoom{
-			Type:  "inside",
-			Start: 0,
-			End:   50,
-		}),
-		charts.WithDataZoomOpts(opts.DataZoom{
-			Type:  "slider",
-			Start: 0,
-			End:   50,
-		}),
-	)
-	var xAxis []string
-	var interestArr []opts.BarData
-	var principalArr []opts.BarData
-	var paymentArr []opts.BarData
-	minusOne := decimal.NewFromInt(-1)
-	for _, row := range rows {
-		xAxis = append(xAxis, row.EndDate.Format("2006-01-02"))
-		interestArr = append(interestArr, opts.BarData{Value: row.Interest.Mul(minusOne).String()})
-		principalArr = append(principalArr, opts.BarData{Value: row.Principal.Mul(minusOne).String()})
-		paymentArr = append(paymentArr, opts.BarData{Value: row.Payment.Mul(minusOne).String()})
-	}
-	// Put data into instance
-	bar.SetXAxis(xAxis).
-		AddSeries("Principal", principalArr).
-		AddSeries("Interest", interestArr).
-		AddSeries("Payment", paymentArr).SetSeriesOptions(
-		charts.WithBarChartOpts(opts.BarChart{
-			Stack: "stackA",
-		}))
-	return bar
-}
-
-// renderer renders the bar into the writer interface
-func renderer(bar *charts.Bar, writer io.Writer) error {
-	return bar.Render(writer)
 }
